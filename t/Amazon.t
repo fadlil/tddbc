@@ -32,6 +32,24 @@ subtest 'test add_cart' => sub {
     throws_ok { $amazon->add_cart({ key => 'perfect_perl',  amount => 4}) } qr/error: wrong amount/,  'not enough amount in stock';
 };
 
+subtest 'test cart' => sub {
+    my $amazon = Amazon->new(); 
+    is $amazon->add_cart({
+            key => 'perfect_perl',
+            amount  => 1,  
+        }),  1,  'ok';
+	is $amazon->get_cart('perfect_perl')->{name}, 'Perfect Perl', 'nameあるよ';
+};
+
+subtest 'test buy cart' => sub {
+    my $amazon = Amazon->new();
+    is $amazon->add_cart({
+            key => 'perfect_perl',
+            amount  => 1,  
+        }),  1,  'ok';
+    is $amazon->buy_cart( 'normal', 'cash' ),  1,  'ok';
+    throws_ok { $amazon->buy_cart( 'hoge',  'cash' ) } qr/error: wrong delivery/,  'no such delivery method';
+};
 #subtest '例外' => sub {
 #	throws_ok { Amazon->new() } qr/ERROR: hoge required/, 'new時にhogeが必要です';
 #	#my $amazon = Amazon->new( hoge => 'fuga' );

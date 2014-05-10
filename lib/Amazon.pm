@@ -22,11 +22,13 @@ sub new {
 		}
 	};
 	
+    my $cart = {}; 
 	#warn Dumper $data;
 
 	#die 'ERROR: hoge required' unless defined $options{hoge};
 	bless {
 		data => $data,
+        cart => $cart,  
 	}, $class;
 }
 
@@ -34,6 +36,11 @@ sub get_data {
 	my ( $self, $options ) = @_;
 	#warn Dumper $self->{data}->{$options};
 	return $self->{data}->{$options};
+}
+
+sub get_cart{
+    my ( $self,  $options ) = @_;
+	return $self->{cart}->{$options};
 }
 
 sub add_cart {
@@ -53,8 +60,22 @@ sub add_cart {
 	
     $self->{data}->{$options->{key}}->{amount} -= $options->{amount};
     warn Dumper $self->{data}->{$options->{key}}->{amount};
+      
+    $self->{cart}->{$options->{key}} = $self->{data}->{$options->{key}};
+    $self->{cart}->{$options->{key}}->{amount} = $options->{amount};
+    
     return $self->{data}->{$options->{key}}->{amount};
 }
 
+sub buy_cart {
+    my ( $self,  $delivery,  $pay ) = @_;
+    my $deliveries = { normal => 0,  fast => 200 };
+    my $pays = [ 'credit',  'cash',  'atm' ];
+
+    die 'error: wrong delivery' unless $deliveries->{$delivery};
+    warn Dumper $delivery;
+    warn Dumper $pay;
+    return 1;
+};
 1;
 
