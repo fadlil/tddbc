@@ -9,7 +9,7 @@ sub new {
 
 	my $data = { name => 'Perfect Perl', price => 1000, release => '2010/11', amount => 2 };
 	
-	warn Dumper $data;
+    #warn Dumper $data;
 
 	#die 'ERROR: hoge required' unless defined $options{hoge};
 	bless {
@@ -28,14 +28,15 @@ sub get_data {
 }
 
 sub add_cart {
-	#my ( $class, %options ) = @_;
+	my ( $self, $options ) = @_;
+    warn Dumper $options->{name};
+    #warn Dumper $self->{data}->{name};
+    #warn $options eq $self->{data}->{name};
+    die 'error: wrong name' unless $options->{name} eq $self->{data}->{name};
+    die 'error: wrong amount' unless $options->{amount} <= $self->{data}->{amount};
 
-	#die 商品の名前が合ってるか
-	#die 在庫数があるか
-	#bless {
-	#	name => $data->{name},
-	#	....
-	#}, $class;
+    $self->{data}->{amount} -= $options->{amount};
+    return $self->{dat}->{amount};
 }
 
 1;

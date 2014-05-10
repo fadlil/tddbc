@@ -24,6 +24,16 @@ subtest 'data確認' => sub {
 	is $amazon->get_data->{amount}, 2, 'amountあるよ';
 };
 
+subtest 'test add_cart' => sub {
+    my $amazon = Amazon->new();
+    is $amazon->add_cart({
+            name => 'Perfect Perl',
+            amount  => 1,  
+        }),  1,  'ok';
+    throws_ok { $amazon->add_cart({ name => 'amazon',  amount => 2 }) } qr/error: wrong name/,  'no product with such name';
+    throws_ok { $amazon->add_cart({ name => 'Perfect Perl',  amount => 4}) } qr/error: wrong amount/,  'not enough amount in stock';
+};
+
 #subtest '例外' => sub {
 #	throws_ok { Amazon->new() } qr/ERROR: hoge required/, 'new時にhogeが必要です';
 #	#my $amazon = Amazon->new( hoge => 'fuga' );
