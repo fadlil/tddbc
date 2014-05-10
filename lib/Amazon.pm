@@ -19,7 +19,7 @@ sub new {
 
 sub get_data {
 	my ( $self, %options ) = @_;
-	return ;
+	return $self->{$options};
 }
 
 sub add_cart {
