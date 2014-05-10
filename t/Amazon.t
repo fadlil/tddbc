@@ -18,20 +18,18 @@ subtest '基本的な確認' => sub {
 subtest 'data確認' => sub {
 	my $amazon = Amazon->new();
 	warn Dumper $amazon;
-	is $amazon->get_data->{name}, 'Perfect Perl', 'nameあるよ';
-	is $amazon->get_data->{price}, 1000, 'priceあるよ';
-	is $amazon->get_data->{release}, '2010/11', 'releaseあるよ';
-	is $amazon->get_data->{amount}, 2, 'amountあるよ';
+	is $amazon->get_data('perfect_perl')->{name}, 'Perfect Perl', 'nameあるよ';
+	is $amazon->get_data('perfect_php')->{name}, 'Perfect PHP', 'priceあるよ';
 };
 
 subtest 'test add_cart' => sub {
     my $amazon = Amazon->new();
     is $amazon->add_cart({
-            name => 'Perfect Perl',
+            key => 'perfect_perl',
             amount  => 1,  
         }),  1,  'ok';
-    throws_ok { $amazon->add_cart({ name => 'amazon',  amount => 2 }) } qr/error: wrong name/,  'no product with such name';
-    throws_ok { $amazon->add_cart({ name => 'Perfect Perl',  amount => 4}) } qr/error: wrong amount/,  'not enough amount in stock';
+    throws_ok { $amazon->add_cart({ key => 'amazon',  amount => 2 }) } qr/error: wrong name/,  'no product with such name';
+    throws_ok { $amazon->add_cart({ key => 'perfect_perl',  amount => 4}) } qr/error: wrong amount/,  'not enough amount in stock';
 };
 
 #subtest '例外' => sub {

@@ -6,10 +6,23 @@ use Data::Dumper;
 
 sub new {
 	my ( $class ) = @_;
-
-	my $data = { name => 'Perfect Perl', price => 1000, release => '2010/11', amount => 2 };
 	
-    #warn Dumper $data;
+	my $data = {
+		perfect_perl => {
+			name	=> 'Perfect Perl',
+			price	=> 1000,
+			release	=> '2010/11',
+			amount	=> 2
+		},
+		perfect_php	 => {
+			name	=> 'Perfect PHP',
+			price	=> 1500,
+			release	=> '2009/04',
+			amount	=> 4 
+		}
+	};
+	
+	#warn Dumper $data;
 
 	#die 'ERROR: hoge required' unless defined $options{hoge};
 	bless {
@@ -18,25 +31,29 @@ sub new {
 }
 
 sub get_data {
-	my ( $self ) = @_;
-	return {
-		name => $self->{data}->{name},
-		price => $self->{data}->{price},
-		release => $self->{data}->{release},
-		amount => $self->{data}->{amount},
-	} 
+	my ( $self, $options ) = @_;
+	#warn Dumper $self->{data}->{$options};
+	return $self->{data}->{$options};
 }
 
 sub add_cart {
 	my ( $self, $options ) = @_;
-    warn Dumper $options->{name};
+    warn Dumper $options->{key};
     #warn Dumper $self->{data}->{name};
     #warn $options eq $self->{data}->{name};
-    die 'error: wrong name' unless $options->{name} eq $self->{data}->{name};
-    die 'error: wrong amount' unless $options->{amount} <= $self->{data}->{amount};
+	#foreach my $d (keys $self->{data}){
+	#	if($d->{name} eq $options->{name}){
+	#		break;
+	#	};
+	#};
 
-    $self->{data}->{amount} -= $options->{amount};
-    return $self->{dat}->{amount};
+	#warn Dumper $d;
+    die 'error: wrong name' unless $self->{data}->{$options->{key}};
+    die 'error: wrong amount' unless $options->{amount} <= $self->{data}->{$options->{key}}->{amount};
+	
+    $self->{data}->{$options->{key}}->{amount} -= $options->{amount};
+    warn Dumper $self->{data}->{$options->{key}}->{amount};
+    return $self->{data}->{$options->{key}}->{amount};
 }
 
 1;
