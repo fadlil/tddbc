@@ -4,6 +4,8 @@ use warnings;
 use Test::More;
 use Test::Exception;
 #binmode STDOUT, ":utf8";
+use Data::Dumper;
+
 
 use_ok 'Amazon';
 
@@ -15,10 +17,11 @@ subtest '基本的な確認' => sub {
 
 subtest 'data確認' => sub {
 	my $amazon = Amazon->new();
-	is $amazon->get_data('name'), '', 'nameあるよ';
-	is $amazon->get_data('price'), 1000, 'priceあるよ';
-	is $amazon->get_data('release'), '2010/11', 'releaseあるよ';
-	is $amazon->get_data('amount'), 2, 'amountあるよ';
+	warn Dumper $amazon;
+	is $amazon->get_data->{name}, 'Perfect Perl', 'nameあるよ';
+	is $amazon->get_data->{price}, 1000, 'priceあるよ';
+	is $amazon->get_data->{release}, '2010/11', 'releaseあるよ';
+	is $amazon->get_data->{amount}, 2, 'amountあるよ';
 };
 
 #subtest '例外' => sub {

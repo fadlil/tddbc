@@ -7,7 +7,7 @@ use Data::Dumper;
 sub new {
 	my ( $class ) = @_;
 
-	my $data = { name => '', price => 1000, release => '2010/11', amount => 2 };
+	my $data = { name => 'Perfect Perl', price => 1000, release => '2010/11', amount => 2 };
 	
 	warn Dumper $data;
 
@@ -18,8 +18,13 @@ sub new {
 }
 
 sub get_data {
-	my ( $self, %options ) = @_;
-	return $self->{$options};
+	my ( $self ) = @_;
+	return {
+		name => $self->{data}->{name},
+		price => $self->{data}->{price},
+		release => $self->{data}->{release},
+		amount => $self->{data}->{amount},
+	} 
 }
 
 sub add_cart {
